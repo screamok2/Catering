@@ -89,10 +89,10 @@ import dj_database_url  # добавь в requirements.txt: dj-database-url
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL")  # Render автоматически создаёт эту переменную
+        default=os.getenv("DATABASE_URL"),
+        conn_max_age=600,  # сохраняет соединение для производительности
     )
 }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
