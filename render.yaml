@@ -6,8 +6,11 @@ databases:
 services:
   - type: web
     name: myproject
-    env: python
+    env: docker
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
     plan: free
+    port: 10000
     buildCommand: |
       pip install -r requirements.txt
     startCommand: |

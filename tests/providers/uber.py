@@ -10,19 +10,17 @@ USERNAME = os.getenv("UBER_USER", "admin@mail.com")
 PASSWORD = os.getenv("UBER_PASS", "admin")
 
 
-def wait_for_service(url, retries=20):
-    """Ждём, пока сервис станет доступен"""
-    for i in range(retries):
+def wait_for_service():
+    for attempt in range(20):
         try:
-            r = requests.get(url, timeout=5)
-            if r.status_code < 500:
-                print("✅ Service is ready")
-                return
-        except Exception:
+            resp = requests.get(f"{BASE_URL}/admin/login/", timeout=5)
+            if resp.status_code < 500:
+                return True
+        except:
             pass
-        print(f"⏳ Waiting for service... ({i+1}/{retries})")
-        time.sleep(20)
+        time.sleep(3)
     raise RuntimeError("❌ Service not ready")
+
 
 
 def get_jwt_token():

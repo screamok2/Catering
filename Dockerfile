@@ -25,4 +25,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["python", "tests/providers/uber.py"]
+CMD ["gunicorn", "myproject.wsgi:application", "--bind", "0.0.0.0:10000"]
