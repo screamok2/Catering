@@ -1,16 +1,26 @@
+databases:
+  - name: myproject-db
+    databaseName: myproject
+    user: postgres
+    plan: free
+
 services:
   - type: web
-    name: my-django-app
-    env: docker
+    name: myproject
+    env: python
     plan: free
-    autoDeploy: true
+    buildCommand: |
+      pip install -r requirements.txt
+    startCommand: |
+      python manage.py migrate && gunicorn myproject.wsgi:application --bind 0.0.0.0:10000
     envVars:
-      - key: DJANGO_SECRET_KEY
-        value: "supersecretkey"   # лучше вынести в Dashboard → Environment Variables
-      - key: DEBUG
-        value: "False"
       - key: DATABASE_URL
-        value: "postgres://user:pass@host:5432/dbname" # укажи свою БД
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
-    # Render сам вызовет gunicorn из Dockerfile, если ENTRYPOINT прописан
+        fromDatabase:
+          name: myproject-db
+          property: connectionString
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: admin@mail.com
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: admin
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: admin
