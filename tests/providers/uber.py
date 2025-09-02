@@ -5,7 +5,7 @@ import random
 import requests
 from datetime import datetime, timezone
 
-BASE_URL = os.getenv("WEB_BASE_URL", "http://localhost:10000")
+BASE_URL = "https://catering-v45p.onrender.com"
 ORDER_STATUSES = ["not_started", "cooking", "cooked", "delivery", "delivered"]
 USERNAME = os.getenv("UBER_USER", "admin@mail.com")
 PASSWORD = os.getenv("UBER_PASS", "admin")
