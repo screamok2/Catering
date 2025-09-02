@@ -1,7 +1,6 @@
 databases:
   - name: myproject-db
     databaseName: myproject
-    user: postgres
     plan: free
 
 services:
