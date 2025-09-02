@@ -1,0 +1,18 @@
+# Базовый образ с Python
+FROM python:3.13-slim
+
+# Устанавливаем зависимости
+RUN pip install requests
+
+# Рабочая директория
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+# Копируем тестовый скрипт в контейнер
+COPY tests/providers/uber.py /app/uber.py
+
+# Запускаем наш тестовый скрипт
+CMD ["python", "-u", "/app/uber.py"]

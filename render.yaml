@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: my-django-app
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        value: "supersecretkey"   # лучше вынести в Dashboard → Environment Variables
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        value: "postgres://user:pass@host:5432/dbname" # укажи свою БД
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    # Render сам вызовет gunicorn из Dockerfile, если ENTRYPOINT прописан

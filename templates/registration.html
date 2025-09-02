@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+    <h2>Registration</h2>
+
+    {% if errors %}
+        <ul style="color: red;">
+            {% for field, error_list in errors.items %}
+                <li><strong>{{ field }}:</strong> {{ error_list.0 }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="{% url 'user-register' %}">
+        {% csrf_token %}
+        <label>First name:</label><br>
+        <input type="text" name="first_name" required><br><br>
+
+        <label>Second name:</label><br>
+        <input type="text" name="last_name" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br><br>
+
+        <button type="submit">Confirm</button>
+    </form>
+
+
+</body>
+</html>

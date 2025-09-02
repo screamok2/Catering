@@ -1,0 +1,107 @@
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: myproject
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - myproject_network
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - myproject_network
+
+  mailpit:
+    image: ghcr.io/axllent/mailpit:latest
+    restart: always
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - myproject_network
+
+
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/myproject
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - mailpit
+    networks:
+      - myproject_network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"   # порт брокера
+      - "15672:15672" # веб-панель (http://localhost:15672, логин/пароль guest/guest)
+    networks:
+      - myproject_network
+
+
+  worker:
+    build: .
+    command: celery -A myproject worker -l info -Q high_priority,low_priority
+    #command: celery -A myproject worker -l info -Q high_priority,low_priority
+    volumes:
+      - .:/myproject   # монтируем текущую директорию в контейнер
+    working_dir: /myproject  # задаем рабочую директорию внутри контейнера
+
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    networks:
+      - myproject_network
+
+  celery:
+    build: .
+    command: celery -A myproject worker -l info
+    volumes:
+      - .:/myproject
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    networks:
+      - myproject_network
+  uber:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+
+
+    depends_on:
+      - web
+    restart: always
+    networks:
+      - myproject_network
+volumes:
+  postgres_data:
+
+
+networks:
+  myproject_network:
+    driver: bridge

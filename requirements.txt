@@ -1,0 +1,11 @@
+Django>=5.2
+djangorestframework>=3.15
+djangorestframework-simplejwt>=5.3
+psycopg2-binary>=2.9        # драйвер PostgreSQL
+django-redis>=5.4           # кэш через Redis
+gunicorn>=22.0              # опционально для прод-режима
+celery
+redis
+django-celery-results>=2.5
+django-celery-beat>=2.5
+requests>=2.31.0
