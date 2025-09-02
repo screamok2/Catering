@@ -5,7 +5,7 @@ import random
 import requests
 from datetime import datetime, timezone
 
-BASE_URL = "http://web:8000"
+BASE_URL = os.getenv("WEB_BASE_URL", "http://localhost:10000")
 ORDER_STATUSES = ["not_started", "cooking", "cooked", "delivery", "delivered"]
 USERNAME = os.getenv("UBER_USER", "admin@mail.com")
 PASSWORD = os.getenv("UBER_PASS", "admin")
@@ -42,7 +42,7 @@ def wait_for_webhook():
 
     for attempt in range(20):  # пробуем до 20 раз
         try:
-            resp = requests.get("http://web:8000/admin/login/", timeout=2)
+            resp = requests.get("https://catering-v45p.onrender.com/admin/login/", timeout=2)
             if resp.status_code < 500:  # web отвечает
                 print("✅ Web is ok!")
                 return
