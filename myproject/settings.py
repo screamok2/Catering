@@ -89,10 +89,12 @@ import dj_database_url  # добавь в requirements.txt: dj-database-url
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL"),
-        conn_max_age=600,  # сохраняет соединение для производительности
+        default="postgres://postgres:g6Rurcei2HEDBDe7G6d3XAWGnBMyWfI8@dpg-d2rjugh5pdvs73dlsg3g-a.render.com:5432/myproject",
+        conn_max_age=600,  # держит соединение открытым для производительности
+        ssl_require=True,  # важно для Render
     )
 }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -128,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR /"staticfile"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
