@@ -16,6 +16,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY wait-for-rabbitmq.sh .
 RUN chmod +x wait-for-rabbitmq.sh
 
+ENV PORT 10000
+EXPOSE 10000
+CMD gunicorn myproject.wsgi:application --bind 0.0.0.0:$PORT
+
 # Копируем весь проект
 COPY . .
 

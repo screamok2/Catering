@@ -21,7 +21,7 @@ def wait_for_service(url, retries=20):
         except Exception:
             pass
         print(f"⏳ Waiting for service... ({i+1}/{retries})")
-        time.sleep(3)
+        time.sleep(20)
     raise RuntimeError("❌ Service not ready")
 
 
