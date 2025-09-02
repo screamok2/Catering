@@ -5,8 +5,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: myproject
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: myproject_eay2_user
+      POSTGRES_PASSWORD: g6Rurcei2HEDBDe7G6d3XAWGnBMyWfI8
     ports:
       - "5432:5432"
     volumes:
