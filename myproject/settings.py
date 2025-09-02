@@ -158,7 +158,7 @@ CACHES = {
     }
 }
 
-SITE_URL=https://catering-v45p.onrender.com
+SITE_URL = os.getenv("SITE_URL", "http://localhost:8000")
 
 
 CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
