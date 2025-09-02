@@ -9,3 +9,4 @@ redis
 django-celery-results>=2.5
 django-celery-beat>=2.5
 requests>=2.31.0
+dj_database_url
