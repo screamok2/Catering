@@ -173,3 +173,7 @@ CELERY_TASK_QUEUES = (
 )
 
 CELERY_TASK_DEFAULT_QUEUE = "low_priority"
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://catering-v45p.onrender.com"
+]
