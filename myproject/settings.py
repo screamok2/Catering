@@ -87,13 +87,21 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 import dj_database_url  # добавь в requirements.txt: dj-database-url
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default="postgres://postgres:g6Rurcei2HEDBDe7G6d3XAWGnBMyWfI8@dpg-d2rjugh5pdvs73dlsg3g-a.render.com:5432/myproject",
-        conn_max_age=600,  # держит соединение открытым для производительности
-        ssl_require=True,  # важно для Render
-    )
-}
+import os
+
+if os.environ.get("GITHUB_ACTIONS") == "true":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get("DATABASE_URL")
+        )
+    }
 
 
 

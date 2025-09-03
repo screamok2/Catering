@@ -42,3 +42,8 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
+
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_ACTIONS: "true"
